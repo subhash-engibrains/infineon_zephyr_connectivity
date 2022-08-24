@@ -46,6 +46,26 @@ zephyr_library_sources_ifdef(CONFIG_CYW4373_STERLING_LWB5PLUS
       bluetooth-freertos/firmware/COMPONENT_4373/COMPONENT_STERLING-LWB5plus/COMPONENT_HCI-UART/w_bt_firmware_controller.c)
 endif()
 
+if(CONFIG_BOARD_INFI_CY8CKIT_062_BLE_DUAL OR CONFIG_BOARD_CY8CPROTO_063_BLE_DUAL)
+  if(CONFIG_BT)
+    zephyr_include_directories(bless)
+    zephyr_include_directories(bless/common)
+    
+    zephyr_library_sources(bless/common/cy_ble_common.c)
+    zephyr_library_sources(bless/cy_ble.c)
+    zephyr_library_sources(bless/cy_ble_controller.c)
+    zephyr_library_sources(bless/cy_ble_event_handler.c) 
+    zephyr_library_sources(bless/cy_ble_hal_pvt.c)
+    zephyr_library_sources(bless/cy_ble_hal_int.c)
+    zephyr_library_sources(bless/cy_ble_gap.c)
+    zephyr_library_sources(bless/cy_ble_gatt.c)
+
+    zephyr_link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/bless/COMPONENT_BLESS_HOST_IPC/COMPONENT_SOFTFP/TOOLCHAIN_GCC_ARM/cy_ble_stack_host.a)
+    zephyr_link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/bless/COMPONENT_BLESS_HOST/COMPONENT_CM4/COMPONENT_SOFTFP/TOOLCHAIN_GCC_ARM/cy_ble_stack_host.a)
+  endif() # CONFIG_BT
+  
+endif() 
+
 ######################################################################################### 
 # PSoC 6 Cortex M0+ image
 #########################################################################################
