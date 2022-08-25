@@ -46,6 +46,25 @@ zephyr_library_sources_ifdef(CONFIG_CYW4373_STERLING_LWB5PLUS
       bluetooth-freertos/firmware/COMPONENT_4373/COMPONENT_STERLING-LWB5plus/COMPONENT_HCI-UART/w_bt_firmware_controller.c)
 endif()
 
+if(CONFIG_BOARD_INFI_CY8CKIT_062_BLE OR CONFIG_BOARD_CY8CPROTO_063_BLE)
+
+  if(CONFIG_BT)
+    zephyr_include_directories(bless)
+    zephyr_include_directories(bless/common)
+    
+    zephyr_library_sources(bless/common/cy_ble_common.c)
+    zephyr_library_sources(bless/cy_ble.c)
+    zephyr_library_sources(bless/cy_ble_controller.c)
+    zephyr_library_sources(bless/cy_ble_event_handler.c) 
+    zephyr_library_sources(bless/cy_ble_hal_pvt.c)
+    zephyr_library_sources(bless/cy_ble_hal_int.c)
+    
+    zephyr_link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/bless/COMPONENT_BLESS_CONTROLLER/COMPONENT_CM4/COMPONENT_SOFTFP/TOOLCHAIN_GCC_ARM/cy_ble_stack_manager.a)
+    zephyr_link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/bless/COMPONENT_BLESS_CONTROLLER/COMPONENT_CM4/COMPONENT_SOFTFP/TOOLCHAIN_GCC_ARM/cy_ble_stack_controller.a)
+    zephyr_link_libraries(${CMAKE_CURRENT_SOURCE_DIR}/bless/COMPONENT_BLESS_CONTROLLER_IPC/TOOLCHAIN_GCC_ARM/cy_ble_stack_controller.a)
+endif() # CONFIG_BT
+  
+endif() 
 if(CONFIG_BOARD_INFI_CY8CKIT_062_BLE_DUAL OR CONFIG_BOARD_CY8CPROTO_063_BLE_DUAL)
   if(CONFIG_BT)
     zephyr_include_directories(bless)
@@ -77,6 +96,13 @@ if(CONFIG_SOC_FAMILY_INFINEON_CAT1A)
       zephyr_library_sources_ifdef(CONFIG_SOC_DIE_PSOC6_03 psoc6cm0p/COMPONENT_CM0P_SLEEP/psoc6_03_cm0p_sleep.c)
       zephyr_library_sources_ifdef(CONFIG_SOC_DIE_PSOC6_04 psoc6cm0p/COMPONENT_CM0P_SLEEP/psoc6_04_cm0p_sleep.c)
   endif()
+  if(CONFIG_SOC_PSOC6_CM0P_BLESS)
+      zephyr_library_sources_ifdef(CONFIG_SOC_DIE_PSOC6_01 psoc6cm0p/COMPONENT_CM0P_BLESS/psoc6_cm0p_bless.c)
+      zephyr_library_sources_ifdef(CONFIG_SOC_DIE_PSOC6_02 psoc6cm0p/COMPONENT_CM0P_BLESS/psoc6_cm0p_bless.c)
+      zephyr_library_sources_ifdef(CONFIG_SOC_DIE_PSOC6_03 psoc6cm0p/COMPONENT_CM0P_BLESS/psoc6_cm0p_bless.c)
+      zephyr_library_sources_ifdef(CONFIG_SOC_DIE_PSOC6_04 psoc6cm0p/COMPONENT_CM0P_BLESS/psoc6_cm0p_bless.c)
+  endif()
+  
 endif()
 
 
